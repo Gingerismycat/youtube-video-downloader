@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "youtube_downloader"
+version = "0.0.1"
+dependencies = [
+    "yt-dlp",
+]
+authors = [
+  {name = "Vuk Arula", email = "vuk.arula@gmail.com"},
+]
+maintainers = [
+  {name = "Vuk Arula", email = "vuk.arula@gmail.com"}
+]
+description = "Downloads videos or audios from Youtube"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
