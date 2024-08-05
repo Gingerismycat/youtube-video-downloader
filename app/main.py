@@ -4,11 +4,14 @@ import logging
 import param 
 import panel as pn
 from panel.viewable import Viewable
+import subprocess
+import argparse
 
 from core.utils_logging import setup_logger, get_logging_level
+from get_audio import generate_command
 
 # template config
-TITLE = "VUK'S COOL APP"
+TITLE = "Youtube Video Downloader"
 
 def setup_template(app: Any, sidebar: list[Any] = None):
     """Return a configured template instance."""
@@ -32,8 +35,34 @@ class SideBarViewer(pn.viewable.Viewer):
 
         return self._layout
 
-
 class PanelApp(pn.viewable.Viewer):
+    url = param.String()
+
+    def __panel__(self) -> Viewable:
+        
+        
+        self.file_format = pn.widgets.Select(name="File Type", options=["mp3", "mp4"])
+        self.button = pn.widgets.Button(name='Download', icon='caret-right',button_type='primary')
+        self.url_input = pn.widgets.TextInput.from_param(self.param.url, name="URL",placeholder="Paste your URL here...")
+        #Set watchers
+        self.button.on_click(self.download)
+
+        self._layout = pn.Row(
+            self.url_input,
+            self.file_format,
+            self.button,
+        )
+        return self._layout
+    
+    #@param.depends('url',watch=True)
+    def download(self, button_press) -> None:
+        cmd = generate_command(self.url_input, self.file_format)
+        subprocess.call(cmd)
+
+
+
+
+class ExamplePanelApp(pn.viewable.Viewer):
     """A neat Panel application."""
 
     # This is the data you want to keep track off
@@ -71,7 +100,6 @@ class PanelApp(pn.viewable.Viewer):
             self.my_static_text.value = "I'm False!"
 
 
-    
 if __name__ == "__main__":
     pass
 
