@@ -2,11 +2,16 @@
 requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [project]
-name = "youtube_downloader"
+name = "yt-app"
 version = "0.0.1"
 dependencies = [
     "yt-dlp",
+    "panel",
+    "ruff", 
 ]
 authors = [
   {name = "Vuk Arula", email = "vuk.arula@gmail.com"},
@@ -17,3 +22,32 @@ maintainers = [
 description = "Downloads videos or audios from Youtube"
 readme = "README.md"
 license = {file = "LICENSE.txt"}
+
+# Code Formatting
+[tool.ruff]
+line-length = 90
+
+[tool.ruff.lint]
+extend-select = [
+    "F",
+    "D", #pydocstyle
+    "I001", #isort
+]
+extend-ignore = [
+    "D100",
+    "D401", # relax imperative mood rule.    
+]
+
+[tool.ruff.lint.isort]   
+known-first-party = ["yt_app"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["D104"]
+"tests/**" = ["D"]
+"*test_*.py" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+quote-style = "double"

@@ -2,7 +2,14 @@
 
 For further documentation: "https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#installation"
 
-1. Set up conda environment (python 3.12)
+1. If you have not created a virtual environemnt, set up conda environment (python 3.12)
+```console
+conda create -n yt-app python=3.12
+```
+If you have previously set up the virtual environment, run 
+```console
+conda actvate yt-app
+```
 
 2. install dependencies:
 ```console
