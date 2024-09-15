@@ -1,6 +1,9 @@
 import subprocess
 import argparse
 
+DEFAULT_PATH = "/home/vukarula/projects/youtube-video-downloader"
+
+
 def generate_command(url:str, file_type:str) -> list:
     if(file_type == "mp3"):
         args = [
@@ -8,6 +11,8 @@ def generate_command(url:str, file_type:str) -> list:
         "--extract-audio",
         "--audio-format",
         "mp3",
+        "-P",
+        DEFAULT_PATH,
         url,
     ]
     else:
@@ -15,6 +20,8 @@ def generate_command(url:str, file_type:str) -> list:
             "yt-dlp",
             "-f",
             "mp4+bestaudio",
+            "-P",
+            DEFAULT_PATH,
             url,
         ]
     return args
