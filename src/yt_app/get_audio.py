@@ -1,42 +1,65 @@
+from pathlib import Path
+import shutil
 import subprocess
 import argparse
+from yt_app.constants import VIDEO_DIR, REPO_ROOT
 
-DEFAULT_PATH = "/home/vukarula/projects/youtube-video-downloader"
 
-
-def generate_command(url:str, file_type:str) -> list:
+def _generate_command(url:str, file_type:str) -> list:
     if(file_type == "mp3"):
         args = [
         "yt-dlp",
+        "-o",
+        "%(title)s.%(ext)s",
         "--extract-audio",
         "--audio-format",
         "mp3",
         "-P",
-        DEFAULT_PATH,
+        VIDEO_DIR,
         url,
     ]
     else:
         args = [
             "yt-dlp",
+            "-o",
+            "%(title)s.%(ext)s",
             "-f",
             "mp4+bestaudio",
             "-P",
-            DEFAULT_PATH,
+            VIDEO_DIR,
             url,
         ]
     return args
 
+def _get_video(url:str, file_type:str) -> None:
+    cmd = _generate_command(url, file_type)
+    subprocess.run(cmd, cwd=REPO_ROOT)
+
+
+def _clean_vid_dir(dir_name:Path):
+    for file in dir_name.iterdir():
+        if file.is_file() and file.name != "README.md":
+            file.unlink()
+        if file.is_dir():
+            shutil.rmtree(file)
+
+def _format_video_name(dir_name:Path) -> None:
+    for file in dir_name.iterdir():
+        if file.name == "README.md":
+            pass
+        else:
+            name = file.stem
+            new_name = name.lower().replace(" ", "-")
+            file_ext = file.suffix
+            new_name = new_name + file_ext
+            new_file = file.parent.joinpath(new_name)
+            shutil.move(file, new_file)
+
+def download_youtube(url:str, file_type:str):
+    _clean_vid_dir(dir_name=VIDEO_DIR)
+    _get_video(url, file_type)
+    _format_video_name(dir_name=VIDEO_DIR)
+
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('-u', '--url', required=True)
-    # args = parser.parse_args()
-
-    # cmd = generate_command(args.url)
-
-    # subprocess.call(cmd)
-    print("Copy and Paste the URL from YouTube")
-    input_url = input()
-    print("mp3 or mp4 (default is mp4)")
-    file_input = input()
-    cmd = generate_command(input_url, file_input)
-    subprocess.call(cmd)
+    url = 'https://youtu.be/jNQXAC9IVRw?si=z48CdD1MC_YwyQpp'
+    download_youtube(url, 'mp4')

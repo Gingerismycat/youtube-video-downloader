@@ -8,7 +8,7 @@ import subprocess
 import argparse
 
 from core.utils_logging import setup_logger, get_logging_level
-from get_audio import generate_command
+from yt_app.get_audio import generate_command
 
 pn.extension(notifications=True)
 logger = logging.getLogger(__file__)
