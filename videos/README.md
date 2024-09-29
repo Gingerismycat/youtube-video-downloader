@@ -1,0 +1,1 @@
+This is a staging area for videos. Any files stored here will be deleted on run time.
