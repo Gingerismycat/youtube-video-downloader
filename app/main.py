@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any
 import logging
 
@@ -8,7 +9,7 @@ import subprocess
 import argparse
 
 from core.utils_logging import setup_logger, get_logging_level
-from yt_app.get_audio import generate_command
+from yt_app.get_audio import download_youtube
 
 pn.extension(notifications=True)
 logger = logging.getLogger(__file__)
@@ -45,10 +46,8 @@ class PanelApp(pn.viewable.Viewer):
         
         
         self.file_format = pn.widgets.Select(name="File Type", options=["mp3", "mp4"])
-        self.button = pn.widgets.Button(name='Download', icon='caret-right',button_type='primary')
+        self.button = pn.widgets.FileDownload(callback=pn.bind(self.download), filename="my-cool-vid.mp3", label="Download")
         self.url_input = pn.widgets.TextInput.from_param(self.param.url, name="URL",placeholder="Paste your URL here...")
-        #Set watchers
-        self.button.on_click(self.download)
 
         self._layout = pn.Column(
             pn.Row(
@@ -60,19 +59,15 @@ class PanelApp(pn.viewable.Viewer):
         return self._layout
     
     #@param.depends('url',watch=True)
-    def download(self, button_press) -> None:
+    def download(self) -> str:
         if self.url_input.value == "":
             pn.state.notifications.error("Please type in the URL!")
         else:
             logger.info("Download button was clicked!")
             logger.info(f"{self.url_input.value}")
             logger.info(f"{self.file_format.value}")
-            cmd = generate_command(self.url_input.value, self.file_format.value)
-            print(cmd)
-            print(self.url_input.value, type(self.url_input.value))
-            subprocess.run(cmd, check=True)
-            logger.info("Download Complete!")
-            pn.state.notifications.success("Download Complete!")
+            file_path = download_youtube(self.url_input.value, self.file_format.value)
+            return str(file_path)
 
 if __name__ == "__main__":
     pass

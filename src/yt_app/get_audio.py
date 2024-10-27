@@ -43,7 +43,7 @@ def _clean_vid_dir(dir_name:Path):
         if file.is_dir():
             shutil.rmtree(file)
 
-def _format_video_name(dir_name:Path) -> None:
+def _format_video_name(dir_name:Path) -> Path:
     for file in dir_name.iterdir():
         if file.name == "README.md":
             pass
@@ -54,11 +54,13 @@ def _format_video_name(dir_name:Path) -> None:
             new_name = new_name + file_ext
             new_file = file.parent.joinpath(new_name)
             shutil.move(file, new_file)
+    return new_file.resolve()
 
 def download_youtube(url:str, file_type:str):
     _clean_vid_dir(dir_name=VIDEO_DIR)
     _get_video(url, file_type)
-    _format_video_name(dir_name=VIDEO_DIR)
+    file_path = _format_video_name(dir_name=VIDEO_DIR)
+    return file_path
 
 if __name__ == '__main__':
     url = 'https://youtu.be/jNQXAC9IVRw?si=z48CdD1MC_YwyQpp'
