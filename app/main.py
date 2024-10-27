@@ -67,6 +67,7 @@ class PanelApp(pn.viewable.Viewer):
             logger.info(f"{self.url_input.value}")
             logger.info(f"{self.file_format.value}")
             file_path = download_youtube(self.url_input.value, self.file_format.value)
+            self.button.filename = file_path.name
             return str(file_path)
 
 if __name__ == "__main__":
