@@ -57,6 +57,13 @@ def _format_video_name(dir_name:Path) -> Path:
     return new_file.resolve()
 
 def download_youtube(url:str, file_type:str):
+    """Download the target YouTube video.
+
+    url : str
+       A URL pointing to the target YouTube video
+    file_type : str
+       Can be either `mp3` or `mp4`
+    """
     _clean_vid_dir(dir_name=VIDEO_DIR)
     _get_video(url, file_type)
     file_path = _format_video_name(dir_name=VIDEO_DIR)
