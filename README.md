@@ -1,27 +1,18 @@
 # youtube-video-downloader
 
-For further documentation: "https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#installation"
 
-1. If you have not created a virtual environemnt, set up conda environment (python 3.12)
-```console
-conda create -n yt-app python=3.12
-```
-If you have previously set up the virtual environment, run 
-```console
-conda actvate yt-app
-```
+![image](https://github.com/user-attachments/assets/3729a26f-6e18-49a6-b29b-246fc3676bcd)
 
-2. install dependencies:
-```console
-pip install yt-dlp 
-```
+### App Description
+My app;lication allows users to download their favorite YouTube videos as a MP3 or MP4 file! 
 
-3. If you don't have ffmpeg, use the website linked: "https://phoenixnap.com/kb/install-ffmpeg-ubuntu" 
+### Developer Quick Start
 
-4. Run the python script:
-```console
-python get_audio.py
-```
-5. Paste the Youtube URL
+#### Python runtime and virtual environments
+1. Please install `uv`....
 
-6. Write "mp3" to download as an audio mp3 file or write "mp4" to write as a video mp4 file
+#### Set up local development environment
+2. Run `source bootstrap.sh`
+
+#### Spin up Panel application
+3. Run `panel serve app`
