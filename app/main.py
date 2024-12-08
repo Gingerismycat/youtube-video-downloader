@@ -1,7 +1,9 @@
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import Any
 import logging
 
+import requests
 import param 
 import panel as pn
 from panel.viewable import Viewable
@@ -66,9 +68,12 @@ class PanelApp(pn.viewable.Viewer):
             logger.info("Download button was clicked!")
             logger.info(f"{self.url_input.value}")
             logger.info(f"{self.file_format.value}")
-            file_path = download_youtube(self.url_input.value, self.file_format.value)
-            self.button.filename = file_path.name
-            return str(file_path)
+            #file_path = download_youtube(self.url_input.value, self.file_format.value)
+            #self.button.filename = file_path.name
+            url = "http://localhost:8000/get-my-vid/"
+            body = {"url": self.url_input.value}
+            response = requests.get(url=url, json=body)
+            return BytesIO(response.content)
 
 if __name__ == "__main__":
     pass
