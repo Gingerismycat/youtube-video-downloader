@@ -12,7 +12,9 @@ requires-python = "== 3.11.10"
 dependencies = [
     "yt-dlp",
     "panel",
-    "ruff", 
+    "ruff",
+    "fastapi[standard]>=0.115.4",
+    "ipykernel>=6.29.5",
 ]
 authors = [
   {name = "Vuk Arula", email = "vuk.arula@gmail.com"},
