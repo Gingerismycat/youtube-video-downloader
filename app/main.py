@@ -68,10 +68,8 @@ class PanelApp(pn.viewable.Viewer):
             logger.info("Download button was clicked!")
             logger.info(f"{self.url_input.value}")
             logger.info(f"{self.file_format.value}")
-            #file_path = download_youtube(self.url_input.value, self.file_format.value)
-            #self.button.filename = file_path.name
             url = "http://localhost:8000/get-my-vid/"
-            body = {"url": self.url_input.value}
+            body = {"url": str(self.url_input.value)}
             response = requests.get(url=url, json=body)
             return BytesIO(response.content)
 
